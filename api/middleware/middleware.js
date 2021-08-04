@@ -5,6 +5,7 @@ function logger(req, res, next) {
   const method = req.method;
   const url = req.originalUrl
   console.log(`[${timeStamp}] ${method} to ${url}`)
+  next()
 }
 
 async function validateUserId(req, res, next) {
@@ -24,7 +25,7 @@ async function validateUserId(req, res, next) {
 
 function validateUser(req, res, next) {
   const { name } = req.body
-  if(!name || name.trim()) {
+  if(!name || !name.trim()) {
     res.status(400).json({message: "missing required name field"})
   } else {
     req.name = name.trim()
@@ -34,8 +35,11 @@ function validateUser(req, res, next) {
 
 function validatePost(req, res, next) {
   const { text } = req.body
-  if(!text || text.trim()) {
+  if(!text || !text.trim()) {
     res.status(400).json({message: "missing required text field"})
+  } else {
+    req.text = text.trim()
+    next()
   }
 }
 
