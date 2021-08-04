@@ -10,7 +10,7 @@ function logger(req, res, next) {
 
 async function validateUserId(req, res, next) {
   try {
-    const user = User.getById(req.params.id)
+    const user = await User.getById(req.params.id)
     if(!user) {
       res.status(404).json({message: "user not found"})
     } else {
